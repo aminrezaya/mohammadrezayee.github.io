@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Coming Soon</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Black+Chancery&display=swap');
+
+  /* Reset and base */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin: 0; padding: 0;
+    height: 100%;
+    background: #0a0a0a;
+    font-family: 'Black Chancery', cursive, serif;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Canvas for candlesticks */
+  #candles {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+  }
+
+  /* Dark translucent overlay behind text to ensure contrast */
+  .overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(10, 10, 10, 0.75);
+    z-index: 1;
+  }
+
+  /* Main container centered */
+  .container {
+    position: relative;
+    z-index: 10;
+    max-width: 700px;
+    width: 90vw;
+    text-align: center;
+    padding: 0 1rem;
+  }
+
+  /* Coming Soon Text */
+  .coming-soon {
+    font-size: 11vw;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: #fff;
+    text-shadow:
+      0 0 20px rgba(255, 255, 255, 0.9),
+      0 6px 18px rgba(0, 0, 0, 0.85);
+    cursor: pointer;
+    position: relative;
+    margin-bottom: 3rem;
+    transition: color 0.3s ease;
+    user-select: none;
+  }
+
+  /* Explosion canvas inside coming soon */
+  #explosionCanvas {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    z-index: 20;
+  }
+
+  /* Icons container */
+  .icons {
+    display: flex;
+    justify-content: center;
+    gap: 5rem;
+  }
+  .icon-link {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
+    transition: transform 0.3s ease, filter 0.3s ease;
+    user-select: none;
+  }
+  .icon-link:hover {
+    color: #1ed760;
+    transform: scale(1.4);
+    filter: drop-shadow(0 0 20px #1ed760);
+  }
+  .icon-link svg {
+    width: 32px;
+    height: 32px;
+    fill: currentColor;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="candles"></canvas>
+<div class="overlay"></div>
+
+<div class="container" role="main" aria-label="Coming Soon and contact icons">
+  <div style="position: relative; display: inline-block; width: 100%;">
+    <div class="coming-soon" id="comingSoonText" tabindex="0" aria-label="Coming Soon text">
+      Coming Soon...
+    </div>
+    <canvas id="explosionCanvas"></canvas>
+  </div>
+
+  <div class="icons" aria-label="Contact links">
+    <a href="https://t.me/mohammadrezayee" target="_blank" rel="noopener" aria-label="Telegram" class="icon-link">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M22.5 2.5L1.5 10.5l5.5 2.1 1.7 6.3 3.3-3.1 5.4 4.1c.9.5 1.6.3 1.9-.8L23.5 3.5c.3-1.1-.7-1.8-1-1zM8.5 14.5l-.6 3.3-1.7-5.5 10.3-8.2-8 7.3z"/>
+      </svg>
+    </a>
+    <a href="https://wa.me/93744386386" target="_blank" rel="noopener" aria-label="WhatsApp" class="icon-link">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M12.04 2C6.48 2 2 6.48 2 12c0 2.1.67 4.05 1.82 5.64L2 22l4.55-1.75A9.94 9.94 0 0012.04 22c5.56 0 10.04-4.48 10.04-10 0-5.52-4.48-10-10.04-10zm5.32 14.6c-.23.64-1.37 1.22-1.89 1.3-.5.08-1.16.12-2.25-.59-1.25-.82-2.04-2.16-2.36-2.9-.14-.36-.74-2.44-.74-2.44s.62-.6.67-.72c.05-.12.08-.18.14-.3.06-.12.08-.18.12-.28.03-.1.05-.14.08-.18.02-.04.02-.06.03-.08.01-.02.02-.04.03-.05a.42.42 0 01.1-.07c.03 0 .07 0 .12.02.04.02.15.08.18.09.02.01.04.03.05.04.02.02.03.04.04.07.01.02.01.04 0 .07 0 .02-.01.05-.02.07-.01.02-.02.04-.02.05 0 .02-.01.04-.01.06-.01.03-.01.05-.01.06-.01.05 0 .1.01.15.01.05.02.09.04.14.01.05.02.09.04.14.01.05.04.11.07.17.02.05.05.09.07.14.02.05.05.1.08.15.03.05.05.09.07.13.02.05.04.09.06.13.01.05.03.09.04.13.01.05.02.09.03.13.01.04.01.08.02.12.01.05.01.09.01.14 0 .05 0 .09 0 .14-.01.05-.01.1-.02.15-.01.04-.02.09-.03.13-.02.04-.03.08-.05.12-.02.05-.03.1-.05.14-.02.05-.05.1-.07.14z"/>
+      </svg>
+    </a>
+  </div>
+</div>
+
+<script>
+  // Canvas for candlesticks background
+  const canvas = document.getElementById('candles');
+  const ctx = canvas.getContext('2d');
+  let w = canvas.width = window.innerWidth;
+  let h = canvas.height = window.innerHeight;
+
+  class Candle {
+    constructor(x) {
+      this.x = x;
+      this.y = Math.random() * h;
+      this.width = 10;
+      this.bodyHeight = 60 + Math.random() * 40;
+      this.wickHeight = this.bodyHeight / 2;
+      this.color = Math.random() > 0.5 ? '#00FF00' : '#FF0000'; // green or red
+      this.speed = 4 + Math.random() * 3;
+      this.direction = -1; // move left
+    }
+    draw() {
+      // Body
+      ctx.fillStyle = this.color;
+      ctx.fillRect(this.x, this.y, this.width, this.bodyHeight);
+      // Wick
+      ctx.fillRect(this.x + this.width/2 - 1, this.y - this.wickHeight, 2, this.wickHeight + this.bodyHeight * 0.1);
+    }
+    update() {
+      this.x += this.speed * this.direction;
+      if(this.x < -this.width) {
+        this.x = w + this.width;
+        this.y = Math.random() * h;
+        this.bodyHeight = 60 + Math.random() * 40;
+        this.wickHeight = this.bodyHeight / 2;
+        this.color = Math.random() > 0.5 ? '#00FF00' : '#FF0000';
+      }
+      this.draw();
+    }
+  }
+
+  let candles = [];
+  const candleCount = Math.floor(w / 20);
+
+  for(let i=0; i<candleCount; i++) {
+    candles.push(new Candle(i * 20));
+  }
+
+  function animateCandles() {
+    ctx.clearRect(0, 0, w, h);
+    candles.forEach(c => c.update());
+    requestAnimationFrame(animateCandles);
+  }
+
+  animateCandles();
+
+  window.addEventListener('resize', () => {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+    candles = [];
+    const candleCount = Math.floor(w / 20);
+    for(let i=0; i<candleCount; i++) {
+      candles.push(new Candle(i * 20));
+    }
+  });
+
+  // Explosion effect + dots scaling
+  const comingText = document.getElementById('comingSoonText');
+  const explosionCanvas = document.getElementById('explosionCanvas');
+  const eCtx = explosionCanvas.getContext('2d');
+
+  function resizeExplosionCanvas() {
+    explosionCanvas.width = comingText.clientWidth;
+    explosionCanvas.height = comingText.clientHeight;
+    explosionCanvas.style.width = comingText.clientWidth + 'px';
+    explosionCanvas.style.height = comingText.clientHeight + 'px';
+  }
+  resizeExplosionCanvas();
+  window.addEventListener('resize', resizeExplosionCanvas);
+
+  class Particle {
+    constructor(x, y, color) {
+      this.x = x;
+      this.y = y;
+      this.size = 4 + Math.random() * 3;
+      this.color = color;
+      this.speedX = (Math.random() - 0.5) * 8;
+      this.speedY = (Math.random() - 0.5) * 8;
+      this.gravity = 0.07;
+      this.opacity = 1;
+      this.life = 60;
+    }
+    update() {
+      this.speedY += this.gravity;
+      this.x += this.speedX;
+      this.y += this.speedY;
+      this.opacity -= 1 / this.life;
+      this.life--;
+    }
+    draw() {
+      eCtx.globalAlpha = this.opacity;
+      eCtx.fillStyle = this.color;
+      eCtx.beginPath();
+      eCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      eCtx.fill();
+      eCtx.globalAlpha = 1;
+    }
+  }
+
+  let particlesArray = [];
+  let dotsScale = 1;
+  let scalingUp = false;
+
+  function createExplosion() {
+    const rect = comingText.getBoundingClientRect();
+    const colors = ['#fff', '#eee', '#ccc'];
+    for (let i = 0; i < 40; i++) {
+      const x = Math.random() * explosionCanvas.width;
+      const y = Math.random() * explosionCanvas.height;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      particlesArray.push(new Particle(x, y, color));
+    }
+    scalingUp = true;
+    dotsScale = 1;
+  }
+
+  function animateExplosion() {
+    eCtx.clearRect(0, 0, explosionCanvas.width, explosionCanvas.height);
+    particlesArray.forEach((p, i) => {
+      p.update();
+      p.draw();
+      if (p.life <= 0) particlesArray.splice(i, 1);
+    });
+
+    // Animate dots scale while scalingUp is true
+    if (scalingUp) {
+      dotsScale += 0.05;
+      if (dotsScale > 3) dotsScale = 1;  // reset scale after growing big
+    }
+
+    // Draw the "..." scaled on the right side of the text
+    eCtx.save();
+    eCtx.fillStyle = '#fff';
+    eCtx.font = `${explosionCanvas.height * 0.6}px 'Black Chancery', cursive`;
+    eCtx.textBaseline = 'middle';
+    const dotsText = '...';
+    const textMetrics = eCtx.measureText('Coming Soon');
+    const textWidth = textMetrics.width;
+    // Position dots just after the main text width with a small gap
+    const dotsX = textWidth + 10;
+    const dotsY = explosionCanvas.height / 2;
+    eCtx.translate(dotsX, dotsY);
+    eCtx.scale(dotsScale, dotsScale);
+    eCtx.fillText(dotsText, 0, 0);
+    eCtx.restore();
+
+    requestAnimationFrame(animateExplosion);
+  }
+  animateExplosion();
+
+  comingText.addEventListener('mouseenter', () => {
+    createExplosion();
+  });
+  comingText.addEventListener('focus', () => {
+    createExplosion();
+  });
+</script>
+
+</body>
+</html>
